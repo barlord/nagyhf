@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "database.c"
 typedef struct recept {
 	char name[20];
 	char ossze[10];
@@ -20,6 +21,8 @@ int recept_search(const char* keres, const char* mibenkeres)
 
 int main()
 {	
+	//nem müködik a create list
+	 create_list();
 	char keres[10];
 
 	//létrehoz egy receptet
