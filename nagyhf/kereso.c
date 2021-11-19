@@ -46,10 +46,7 @@ Recept* create_list()
 	Recept* head = NULL;
 	Recept* e;
 	e = create_listelement();
-	strcpy_s(e->name, 20, "rantotta");
-	strcpy_s(e->ossze, 10, "tojas");
-	strcpy_s(e->elkeszit, 200, "keverd ossze a tojast majd süssd ki");
-	//printf("\nneve:\t%s\n osszetevok:%s \n Recept:\n%s", e->name, e->ossze, e->elkeszit);
+	
 	return e;
 }
 //vesz ket chart és ha ugyanazok 1 et ad vissza különben 0
@@ -66,26 +63,43 @@ int recept_search(const char* keres, const char* mibenkeres)
 
 int main()
 {	
-	//nem müködik a create list
 	char keres[10];
-	Recept* rantotta=create_list();
+	int nf = 0; //not found
+	///majd át kell rakni másik függvénybe
+	Recept* head = NULL;
+	Recept* tmp=create_list();
+	strcpy_s(tmp->name, 20, "rantotta");
+	strcpy_s(tmp->ossze, 10, "tojas");
+	strcpy_s(tmp->elkeszit, 200, "keverd ossze a tojast majd süssd ki");
+	add_element(&head,tmp);
 
-	
-	
+	 tmp = create_list();
+	strcpy_s(tmp->name, 20, "limonade");
+	strcpy_s(tmp->ossze, 10, "viz");
+	strcpy_s(tmp->elkeszit, 200, "keverd ossze a vizet es ihatod is");
+	add_element(&head, tmp);
+	////////
+	// 
 	//bekéri a receptet
 	printf("ami van otthon:\n");
 	scanf_s("%s", &keres,10);
-	if (recept_search(keres, rantotta->ossze))
+	
+	//végig megy a listán és kiírja a találatokat strcmpvel, ha ninsc találat bad luck...
+	for (; head!=NULL; head=head->next)
 	{
+		if (recept_search(keres, head->ossze))
+		{
 		printf("\n ehez van minden otthon:");
-		printf("\n%s", rantotta->name);
-		printf("\n%s", rantotta->ossze);
-		printf("\n%s", rantotta->elkeszit);
+		printf("\n%s", head->name);
+		printf("\n%s", head->ossze);
+		printf("\n%s", head->elkeszit);
+		nf++;
+		}
+		
 	}
-	else
-	{
-		printf("bad luck ehes maradsz");
-	}
+	//ha nincs találat
+	if(nf==0)
+	printf("bad luck ehes maradsz");
 
 		return 0;
 }
