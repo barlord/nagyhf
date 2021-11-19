@@ -1,12 +1,57 @@
 #include <stdio.h>
 #include <string.h>
-#include "database.c"
+
 typedef struct recept {
 	char name[20];
 	char ossze[10];
 	char elkeszit[200];
+	struct recept* next;
 }Recept;
+//lefoglal egy receptnyi helyet és visszaadja  a pointerét
+Recept* create_listelement()
+{
+	Recept* p;
+	p = (Recept*)malloc(sizeof(Recept));
+	if (p == NULL)
+	{
+		printf("malloc error");
+		exit(1);
+	}
+	p->next = NULL;
+	return p;
+}
 
+/// <summary>
+/// jé ez de menõ, ez megnézhi ha a head 0 akkor õ lesz az elsõ elem ha nem akkor akkor a neki beadott pointer lesz a következõ elemre a head;
+/// </summary>
+/// <param name="head">fajl eleje</param>
+/// <param name="e">fajl vége pointer kövire </param>
+void add_element(Recept** head, Recept* e) {
+	Recept* p;
+	if (*head == NULL) {
+
+		*head = e;
+		return;
+	}
+	for (p = *head; p->next != NULL; p = p->next) {
+	}
+
+	p->next = e;
+	return;
+}
+
+Recept* create_list()
+{
+	//megrpobálom e betölteni a receptet
+	Recept* head = NULL;
+	Recept* e;
+	e = create_listelement();
+	strcpy_s(e->name, 20, "rantotta");
+	strcpy_s(e->ossze, 10, "tojas");
+	strcpy_s(e->elkeszit, 200, "keverd ossze a tojast majd süssd ki");
+	//printf("\nneve:\t%s\n osszetevok:%s \n Recept:\n%s", e->name, e->ossze, e->elkeszit);
+	return e;
+}
 //vesz ket chart és ha ugyanazok 1 et ad vissza különben 0
 int recept_search(const char* keres, const char* mibenkeres)
 {
@@ -22,25 +67,20 @@ int recept_search(const char* keres, const char* mibenkeres)
 int main()
 {	
 	//nem müködik a create list
-	 create_list();
 	char keres[10];
+	Recept* rantotta=create_list();
 
-	//létrehoz egy receptet
-	Recept rantotta;
-
-	strcpy_s(rantotta.name,sizeof(rantotta.name), "rantotta");
-	strcpy_s(rantotta.ossze, sizeof(rantotta.ossze), "tojas");
-	strcpy_s(rantotta.elkeszit, sizeof(rantotta.elkeszit), "keverd ossze a tojast majd süssd ki");
+	
 	
 	//bekéri a receptet
 	printf("ami van otthon:\n");
 	scanf_s("%s", &keres,10);
-	if (recept_search(keres, rantotta.ossze))
+	if (recept_search(keres, rantotta->ossze))
 	{
 		printf("\n ehez van minden otthon:");
-		printf("\n%s", rantotta.name);
-		printf("\n%s", rantotta.ossze);
-		printf("\n%s", rantotta.elkeszit);
+		printf("\n%s", rantotta->name);
+		printf("\n%s", rantotta->ossze);
+		printf("\n%s", rantotta->elkeszit);
 	}
 	else
 	{
