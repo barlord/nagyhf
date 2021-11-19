@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
 typedef struct receptd {
 	char name[20];
@@ -51,4 +51,4 @@ void create_list()
 	strcpy_s(e->elkeszit, 200, "keverd ossze a tojast majd süssd ki");
 	printf("\nneve:\t%s\n osszetevok:%s \n Recept:\n%s",e->name,e->ossze,e->elkeszit);
 	
-}
+}*/
