@@ -9,7 +9,7 @@ typedef struct recept {
 }Recept;
 
 
-//lefoglal egy receptnyi helyet és visszaadja  a pointerét !!!!!!!!!!!!!!!!!!!MALLOC DE MÉGnem biztos hogy jó a FREE!!!!!!!!!!!!!!!!!
+//lefoglal egy receptnyi helyet és visszaadja  a pointerét !!!!!!!!!!!!!!!!!!!MALLOC DE MÉG NINCS FREE!!!!!!!!!!!!!!!!!
 Recept* create_listelement()
 {
 	Recept* p;
@@ -131,5 +131,6 @@ int main()
 	if(nf==0)
 	printf("bad luck ehes maradsz");
 	free(head);
+	printf("\n%s", head->elkeszit);
 		return 0;
 }
