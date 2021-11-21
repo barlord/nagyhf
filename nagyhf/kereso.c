@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
 
@@ -80,6 +81,19 @@ char* str_spacedel(char* str)
 //vesz ket chart és ha ugyanazok 1 et ad vissza különben 0
 int recept_search(const char* keres, const char* mibenkeres)
 {
+	str_spacedel(mibenkeres);
+
+
+	//másol a tmpbe hog megtartsam az ereddeti értéket
+	char* tmp = keres;
+	//darabokra szedem
+	char* ktevo = strtok(tmp, ",");
+	while (ktevo != NULL)
+	{
+		printf("aktualis: %s", ktevo);
+		ktevo = strtok(NULL, ",");
+	}
+	//még nem mûködik
 
 
 	if(strcmp(keres,mibenkeres)==0)
@@ -98,13 +112,13 @@ int main()
 	Recept* head = NULL;
 	Recept* tmp=create_list();
 	strcpy_s(tmp->name, 20, "rantotta");
-	strcpy_s(tmp->ossze, 15, "tojas");
+	strcpy_s(tmp->ossze, 15, "tojas, so");
 	strcpy_s(tmp->elkeszit, 200, "keverd ossze a tojast majd süssd ki");
 	add_element(&head,tmp);
 
 	 tmp = create_list();
 	strcpy_s(tmp->name, 20, "limonade");
-	strcpy_s(tmp->ossze, 15, "viz, cukor");
+	strcpy_s(tmp->ossze, 15, "viz,cukor");
 	strcpy_s(tmp->elkeszit, 200, "keverd ossze a vizet es ihatod is");
 	add_element(&head, tmp);
 	////////
@@ -117,7 +131,7 @@ int main()
 	//végig megy a listán és kiírja a találatokat strcmpvel, ha ninsc találat bad luck...
 	for (; head!=NULL; head=head->next)
 	{
-		if (recept_search(natur, str_spacedel(head->ossze)))
+		if (recept_search(natur, head->ossze))
 		{
 		printf("\n ehez van minden otthon:");
 		printf("\n%s", head->name);
