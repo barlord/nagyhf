@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+
+
 typedef struct recept {
 	char name[20];
 	char ossze[15];
@@ -81,6 +83,10 @@ char* str_spacedel(char* str)
 //vesz ket chart és ha ugyanazok 1 et ad vissza különben 0
 int recept_search(const char* keres, const char* mibenkeres)
 {
+	int zahl_ossze =0;
+	int  i=0;
+	char* pos;
+	
 	str_spacedel(mibenkeres);
 
 
@@ -88,19 +94,26 @@ int recept_search(const char* keres, const char* mibenkeres)
 	char* tmp = keres;
 	//darabokra szedem
 	char* ktevo = strtok(tmp, ",");
+
+	//array hosszat valahogy at kene adni
+	
 	while (ktevo != NULL)
 	{
-		printf("aktualis: %s", ktevo);
+		pos = strstr(mibenkeres, ktevo);
+			if(pos)
+			{
+				printf("%s",pos);
+			}
+			else
+			{
+				return 0;
+			}
+
 		ktevo = strtok(NULL, ",");
 	}
+	return 1;
 	//még nem mûködik
 
-
-	if(strcmp(keres,mibenkeres)==0)
-	{
-		return 1;
-	}
-	return 0;
 
 }
 
