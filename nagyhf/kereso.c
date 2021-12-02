@@ -1,18 +1,18 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
-
-
+#include<stdlib.h>
 
 typedef struct recept {
 	char name[20];
 	char ossze[15];
 	char elkeszit[200];
+	int osszcucc;
 	struct recept* next;
 }Recept;
 
 
-//lefoglal egy receptnyi helyet és visszaadja  a pointerét !!!!!!!!!!!!!!!!!!!MALLOC DE MÉGnem biztos hogy jó a FREE!!!!!!!!!!!!!!!!!
+//lefoglal egy receptnyi helyet ï¿½s visszaadja  a pointerï¿½t !!!!!!!!!!!!!!!!!!!MALLOC DE Mï¿½Gnem biztos hogy jï¿½ a FREE!!!!!!!!!!!!!!!!!
 Recept* create_listelement()
 {
 	Recept* p;
@@ -27,10 +27,10 @@ Recept* create_listelement()
 }
 
 /// <summary>
-/// jé ez de menõ, ez megnézhi ha a head 0 akkor õ lesz az elsõ elem ha nem akkor akkor a neki beadott pointer lesz a következõ elemre a head;
+/// jï¿½ ez de menï¿½, ez megnï¿½zhi ha a head 0 akkor ï¿½ lesz az elsï¿½ elem ha nem akkor akkor a neki beadott pointer lesz a kï¿½vetkezï¿½ elemre a head;
 /// </summary>
 /// <param name="head">fajl eleje</param>
-/// <param name="e">fajl vége pointer kövire </param>
+/// <param name="e">fajl vï¿½ge pointer kï¿½vire </param>
 void add_element(Recept** head, Recept* e) {
 	Recept* p;
 	if (*head == NULL) {
@@ -47,116 +47,122 @@ void add_element(Recept** head, Recept* e) {
 
 Recept* create_list()
 {
-	//megrpobálom e betölteni a receptet
+	//megrpobï¿½lom e betï¿½lteni a receptet
 	Recept* head = NULL;
 	Recept* e;
 	e = create_listelement();
-	
+
 	return e;
 }
 
-//stringbõl a spaceket eltünteti és visszaad egy új stringet space nélkül
+//stringbï¿½l a spaceket eltï¿½nteti ï¿½s visszaad egy ï¿½j stringet space nï¿½lkï¿½l
 char* str_spacedel(char* str)
 {
 	int i = 0;
 	int j = 0;
 	while (str[i] != '\0')
 	{
-		
+
 		if (str[i] != ' ')
 		{
-			str[j++] = str[i ];
+			str[j++] = str[i];
 
 		}
-		else 
+		else
 		{
 			str[j] = str[i];
-			
+
 		}
 		i++;
-		
+
 	}
 	str[j] = '\0';
 	return str;
 }
 
-//vesz ket chart és ha ugyanazok 1 et ad vissza különben 0
-int recept_search(const char* keres, const char* mibenkeres)
+//vesz ket chart ï¿½s ha ugyanazok 1 et ad vissza kï¿½lï¿½nben 0
+int recept_search(const char* keres, Recept* head)
 {
-	int zahl_ossze =0;
-	int  i=0;
+	char* mibenkeres = head->ossze;
+	int zahl_ossze = 0;
+	int  i = 0;
 	char* pos;
-	
-	str_spacedel(mibenkeres);
+	int backer = 0;
 
-
-	//másol a tmpbe hog megtartsam az ereddeti értéket
-	char* tmp = keres;
+	//mï¿½sol a tmpbe hogy megtartsam az eredeti ï¿½rtï¿½ket
+	char tmp[20];
+	strcpy(tmp, mibenkeres);
 	//darabokra szedem
 	char* ktevo = strtok(tmp, ",");
 
-	//array hosszat valahogy at kene adni
-	
 	while (ktevo != NULL)
 	{
-		pos = strstr(mibenkeres, ktevo);
-			if(pos)
-			{
-				printf("%s",pos);
-			}
-			else
-			{
-				return 0;
-			}
+		if (ktevo[strlen(ktevo) - 1] == '\n') {
+			ktevo[strlen(ktevo) - 1] = '\0';
+		}
+		pos = strstr(keres, ktevo);
+		if (pos)
+		{
+			backer++;
+		}
+		else
+		{
+			return 0;
+		}
 
 		ktevo = strtok(NULL, ",");
 	}
+	if (backer < head->osszcucc) {
+		return 0;
+	}
 	return 1;
-	//még nem mûködik
 
 
 }
 
 int main()
-{	
-	char keres[15];
+{
+	char keres[20], caller[20];
 	int nf = 0; //not found
-	///majd át kell rakni másik függvénybe
+	///majd ï¿½t kell rakni mï¿½sik fï¿½ggvï¿½nybe
 	Recept* head = NULL;
-	Recept* tmp=create_list();
-	strcpy_s(tmp->name, 20, "rantotta");
-	strcpy_s(tmp->ossze, 15, "tojas, so");
-	strcpy_s(tmp->elkeszit, 200, "keverd ossze a tojast majd süssd ki");
-	add_element(&head,tmp);
+	Recept* tmp = create_list();
+	strcpy(tmp->name, "rantotta");
+	strcpy(tmp->ossze, "tojas,so");
+	strcpy(tmp->elkeszit, "keverd ossze a tojast majd sussd ki");
+	tmp->osszcucc = 2;
+	add_element(&head, tmp);
 
-	 tmp = create_list();
-	strcpy_s(tmp->name, 20, "limonade");
-	strcpy_s(tmp->ossze, 15, "viz,cukor");
-	strcpy_s(tmp->elkeszit, 200, "keverd ossze a vizet es ihatod is");
+	tmp = create_list();
+	strcpy(tmp->name, "limonade");
+	strcpy(tmp->ossze, "viz,cukor");
+	strcpy(tmp->elkeszit, "keverd ossze a vizet es ihatod is");
+	tmp->osszcucc = 2;
 	add_element(&head, tmp);
 	////////
 	// 
-	//bekéri a receptet
+	//bekï¿½ri a receptet
 	printf("ami van otthon:\n");
-	gets(&keres,15,stdin);
+	fgets(keres, 15, stdin);
 	char* natur = str_spacedel(keres);
-	
-	//végig megy a listán és kiírja a találatokat strcmpvel, ha ninsc találat bad luck...
-	for (; head!=NULL; head=head->next)
+
+	//vï¿½gig megy a listï¿½n ï¿½s kiï¿½rja a talï¿½latokat strcmpvel, ha ninsc talï¿½lat bad luck...
+	for (; head != NULL; head = head->next)
 	{
-		if (recept_search(natur, head->ossze))
+		strcpy(caller, natur);
+		if (recept_search(caller, head))
 		{
-		printf("\n ehez van minden otthon:");
-		printf("\n%s", head->name);
-		printf("\n%s", head->ossze);
-		printf("\n%s", head->elkeszit);
-		nf++;
+			printf("\n ehez van minden otthon:");
+			printf("\n%s", head->name);
+			printf("\n%s", head->ossze);
+			printf("\n%s", head->elkeszit);
+			printf("\n");
+			nf++;
 		}
-		
 	}
-	//ha nincs találat
-	if(nf==0)
-	printf("bad luck ehes maradsz");
+	//ha nincs talï¿½lat
+	if (nf == 0)
+		printf("bad luck ehes maradsz\n");
 	free(head);
-		return 0;
+	return 0;
 }
