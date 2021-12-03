@@ -120,3 +120,23 @@ int recept_search(const char* keres, Recept* head)
 
 }
 
+//input tárolása akármilyen hosszra dinamikusan
+char* beolvas(char*string)
+{
+	int c; //as getchar() returns `int`
+	int i=0;
+	string = malloc(sizeof(char)); //allocating memory
+
+	string[0] = '\0';
+
+	while ((c = getchar() )!= '\n')
+	{
+		string = realloc(string, (i + 2) * sizeof(char));//reallocating memory
+
+		string[i] = (char)c; //type casting `int` to `char`
+		string[i + 1] = '\0'; //inserting null character at the end
+		i++;
+	}
+
+	return string;
+}
