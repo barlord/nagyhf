@@ -30,10 +30,12 @@ int main()
 	printf("ami van otthon:\n");
 	//teszt beolvas dinam
 	keresd=beolvas(keresd);
-	
-	//fgets(keres, 15, stdin);
+	if (keresd == NULL)
+	{
+		fprintf(stderr, "FattalERRRORRRR");
+		return 0;
+	}
 
-	printf("%s", keresd);
 	char* natur = str_spacedel(keresd);
 
 	//v�gig megy a list�n �s ki�rja a tal�latokat strcmpvel, ha ninsc tal�lat bad luck...
