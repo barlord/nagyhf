@@ -7,7 +7,7 @@
 
 int main()
 {
-	char keres[20], caller[20];
+	char*keresd='\0';
 	int nf = 0; //not found
 	///majd �t kell rakni m�sik f�ggv�nybe
 	Recept* head = NULL;
@@ -28,14 +28,18 @@ int main()
 	// 
 	//bek�ri a receptet
 	printf("ami van otthon:\n");
-	fgets(keres, 15, stdin);
-	char* natur = str_spacedel(keres);
+	//teszt beolvas dinam
+	keresd=beolvas(keresd);
+	
+	//fgets(keres, 15, stdin);
+
+	printf("%s", keresd);
+	char* natur = str_spacedel(keresd);
 
 	//v�gig megy a list�n �s ki�rja a tal�latokat strcmpvel, ha ninsc tal�lat bad luck...
 	for (; head != NULL; head = head->next)
 	{
-		strcpy(caller, natur);
-		if (recept_search(caller, head))
+		if (recept_search(keresd, head))
 		{
 			printf("\n ehez van minden otthon:");
 			printf("\n%s", head->name);
@@ -49,5 +53,6 @@ int main()
 	if (nf == 0)
 		printf("bad luck ehes maradsz\n");
 	free(head);
+	free(keresd);
 	return 0;
 }
