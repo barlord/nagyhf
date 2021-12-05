@@ -37,6 +37,10 @@ int main()
 	//végig megy a listán és kiírja a találatokat strcmpvel, ha ninsc találat bad luck...
 	for (; head != NULL; head = head->next)
 	{
+		/*printf("\n%s", head->name);
+		printf("\n%s", head->ossze);
+		printf("\n%s", head->elkeszit);
+		printf("\n");*/
 		if (recept_search(keresd, head))
 		{
 			if (t == 0)

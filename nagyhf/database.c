@@ -13,7 +13,7 @@ Recept* data(Recept* head)
 	strcpy(tmp->ossze, "tojás,só");
 	tmp->elkeszit = (char*)malloc(sizeof(char) * (strlen("keverd össze a tojást majd süssd ki") + 1));
 	strcpy(tmp->elkeszit, "keverd össze a tojást majd süssd ki");
-	//nagyon fontos hogy hány elem van benne, ha a user is rakhatna be ide adatot ,-k száma+1 lenne ez
+	//nagyon fontos hogy hány elem van benne, ha a user is rakhatna be ide adatot ,-k száma+1
 	tmp->osszcucc = 2;
 	add_element(&head, tmp);
 
@@ -37,6 +37,17 @@ Recept* data(Recept* head)
 	strcpy(tmp->elkeszit, "keverd ossze a turot es a lekvárt und eheted is");
 	tmp->osszcucc = 2;
 	add_element(&head, tmp);
+
+	tmp = create_listelement();
+	tmp->name = (char*)malloc(sizeof(char) * (strlen("amerikai csokis keksz") + 1));
+	strcpy(tmp->name, "amerikai csokis keksz");
+	tmp->ossze = (char*)malloc(sizeof(char) * (strlen("tojás,só,cukor,vaj,liszt,sütőpor,csoki") + 1));
+	strcpy(tmp->ossze, "tojás,só,cukor,vaj,liszt,sütőpor,csoki");
+	tmp->elkeszit = (char*)malloc(sizeof(char) * (strlen("A tojást elkeverjük a cukorral és a csipet sóval, aztán jöhet a vaj. \n Jól össze kell keverni. A darabokra tört csokit is hozzátesszük, és összekeverjük. \n A lisztbe belekeverjük a sütőport, majd hozzáadagoljuk a maszához. \n Golyókat gyúrunk és a sütőpapíros tepsin kicsit lenyomkodjuk. Kb. 160 fokon kell sütni, minimum 15 percig. Sütés után hagyni kell kihűlni. ") + 1));
+	strcpy(tmp->elkeszit, "A tojást elkeverjük a cukorral és a csipet sóval, aztán jöhet a vaj. \n Jól össze kell keverni. A darabokra tört csokit is hozzátesszük, és összekeverjük. \n A lisztbe belekeverjük a sütőport, majd hozzáadagoljuk a maszához. \n Golyókat gyúrunk és a sütőpapíros tepsin kicsit lenyomkodjuk. Kb. 160 fokon kell sütni, minimum 15 percig. Sütés után hagyni kell kihűlni. ");
+	tmp->osszcucc = 7;
+	add_element(&head, tmp);
 	
 	return head;
 }
+//"tojás,só,cukor,vaj, liszt, sütőpor, csoki"
