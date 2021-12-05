@@ -2,17 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include<stdlib.h>
+#include "fuggveny.h"
+#include "data.h"
 
-typedef struct recept {
-	char name[20];
-	char ossze[15];
-	char elkeszit[200];
-	int osszcucc;
-	struct recept* next;
-}Recept;
-
-
-//lefoglal egy receptnyi helyet �s visszaadja  a pointer�t !!!!!!!!!!!!!!!!!!!MALLOC DE M�Gnem biztos hogy j� a FREE!!!!!!!!!!!!!!!!!
+//lefoglal egy receptnyi helyet és visszaadja  a pointer�t malloc kezelve
 Recept* create_listelement()
 {
 	Recept* p;
@@ -27,10 +20,10 @@ Recept* create_listelement()
 }
 
 /// <summary>
-/// j� ez de men�, ez megn�zhi ha a head 0 akkor � lesz az els� elem ha nem akkor akkor a neki beadott pointer lesz a k�vetkez� elemre a head;
+/// jé ez de menő, ez megnézhi ha a head 0 akkor ő lesz az első elem ha nem akkor akkor a neki beadott pointer lesz a következő elemre a head;
 /// </summary>
 /// <param name="head">fajl eleje</param>
-/// <param name="e">fajl v�ge pointer k�vire </param>
+/// <param name="e">fajl vége pointer k�vire </param>
 void add_element(Recept** head, Recept* e) {
 	Recept* p;
 	if (*head == NULL) {
@@ -47,7 +40,7 @@ void add_element(Recept** head, Recept* e) {
 
 Recept* create_list()
 {
-	//megrpob�lom e bet�lteni a receptet
+	//megrpobálom e betölteni a receptet
 	Recept* head = NULL;
 	Recept* e;
 	e = create_listelement();
@@ -55,7 +48,7 @@ Recept* create_list()
 	return e;
 }
 
-//stringb�l a spaceket elt�nteti �s visszaad egy �j stringet space n�lk�l
+//stringből a spaceket eltünteti és visszaad egy új stringet space nélkül
 char* str_spacedel(char* str)
 {
 	int i = 0;
@@ -80,36 +73,34 @@ char* str_spacedel(char* str)
 	return str;
 }
 
-//vesz ket chart �s ha ugyanazok 1 et ad vissza k�l�nben 0
+//vesz ket chart és ha ugyanazok 1 et ad vissza különben 0
 int recept_search(const char* keres, Recept* head)
 {
-	char* mibenkeres = head->ossze;
+	char* mibenkeres =(char*)malloc(sizeof(char)*(strlen(head->ossze)+1));
+	strcpy(mibenkeres, head->ossze);
 	int zahl_ossze = 0;
 	int  i = 0;
 	char* pos;
 	int backer = 0;
 
-	//m�sol a tmpbe hogy megtartsam az eredeti �rt�ket
-	char tmp[20];
-	strcpy(tmp, mibenkeres);
 	//darabokra szedem
-	char* ktevo = strtok(tmp, ",");
+	char* ktevo = strtok(mibenkeres, ",");
 
 	while (ktevo != NULL)
 	{
-		if (ktevo[strlen(ktevo) - 1] == '\n') {
-			ktevo[strlen(ktevo) - 1] = '\0';
-		}
+		//keres a stringben részleteket 
 		pos = strstr(keres, ktevo);
 		if (pos)
 		{
+			//szamolja hány összetevőt talált hogy megvan e mind
 			backer++;
 		}
 		else
 		{
+			//ha van olyan összetevő ami kellen de nincs 0t ad vissza
 			return 0;
 		}
-
+		//keresett összetevő ,-vel elválasztva
 		ktevo = strtok(NULL, ",");
 	}
 	if (backer < head->osszcucc) {
@@ -125,7 +116,7 @@ char* beolvas(char*string)
 {
 	int c; //as getchar() returns `int`
 	int i=0;
-	string = malloc(sizeof(char)); //allocating memory
+	string =(char*) malloc(sizeof(char)); //allocating memory
 
 	string[0] = '\0';
 
@@ -142,4 +133,17 @@ char* beolvas(char*string)
 	}
 
 	return string;
+}
+
+void delete(Recept* head) {
+	Recept* p;
+	while (head != NULL) {
+		p = head->next; 
+		free(head->name);
+		free(head->ossze);
+		free(head->elkeszit);
+		free(head);
+		head = p;
+	}
+	return;
 }

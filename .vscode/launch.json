@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "vslsRemoteLaunch",
+            "name": "nagyhf",
+            "request": "attach",
+            "projectID": "ba4fbbc7-9deb-4a1c-85e6-5765e538826d"
+        }
+    ]
+}

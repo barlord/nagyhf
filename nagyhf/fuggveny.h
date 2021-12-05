@@ -1,8 +1,9 @@
 
 typedef struct recept {
-	char name[20];
-	char ossze[15];
-	char elkeszit[200];
+	char* name;
+	char* ossze;
+
+	char* elkeszit;
 	int osszcucc;
 	struct recept* next;
 }Recept;
@@ -13,3 +14,4 @@ Recept* create_list();
 char* str_spacedel(char* str);
 int recept_search(const char* keres, Recept* head);
 char* beolvas(char* string);
+void delete(Recept* head);

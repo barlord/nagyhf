@@ -4,34 +4,29 @@
 #include<stdlib.h>
 #include "fuggveny.h"
 #include "data.h"
+#include <locale.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 int main()
 {
+	//magyar betük csak windowson
+	SetConsoleCP(1250);
+	SetConsoleOutputCP(1250);
+
 	char*keresd='\0';
 	int nf = 0; //not found
+	int t = 0;//találatok száma
 	Recept* head = NULL;
+	
 	head=data(head);
-	/////majd �t kell rakni m�sik f�ggv�nybe
-	//Recept* head = NULL;
-	//Recept* tmp = create_list();
-	//strcpy(tmp->name, "rantotta");
-	//strcpy(tmp->ossze, "tojas,so");
-	//strcpy(tmp->elkeszit, "keverd ossze a tojast majd sussd ki");
-	//tmp->osszcucc = 2;
-	//add_element(&head, tmp);
-
-	//tmp = create_list();
-	//strcpy(tmp->name, "limonade");
-	//strcpy(tmp->ossze, "viz,cukor");
-	//strcpy(tmp->elkeszit, "keverd ossze a vizet es ihatod is");
-	//tmp->osszcucc = 2;
-	//add_element(&head, tmp);
-	//////////
-	//// 
-	//bek�ri a receptet
+	
 	printf("ami van otthon:\n");
-	//teszt beolvas dinam
+	// beolvas dinam
 	keresd=beolvas(keresd);
+
+	//error kezelés
 	if (keresd == NULL)
 	{
 		fprintf(stderr, "FattalERRRORRRR");
@@ -39,23 +34,30 @@ int main()
 	}
 
 	char* natur = str_spacedel(keresd);
-
-	//v�gig megy a list�n �s ki�rja a tal�latokat strcmpvel, ha ninsc tal�lat bad luck...
+	//végig megy a listán és kiírja a találatokat strcmpvel, ha ninsc találat bad luck...
 	for (; head != NULL; head = head->next)
 	{
 		if (recept_search(keresd, head))
 		{
+			if (t == 0)
 			printf("\n ehez van minden otthon:");
+			if(t!=0)
+			{ 
+				printf("\n ehez is van minden otthon:");
+			}
 			printf("\n%s", head->name);
 			printf("\n%s", head->ossze);
 			printf("\n%s", head->elkeszit);
 			printf("\n");
 			nf++;
+			t++;
 		}
 	}
-	//ha nincs tal�lat
+	//ha nincs találat
 	if (nf == 0)
 		printf("bad luck ehes maradsz\n");
+	//mallococ free
+	delete(head);
 	free(head);
 	free(keresd);
 	return 0;
