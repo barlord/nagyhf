@@ -3,29 +3,31 @@
 #include <string.h>
 #include<stdlib.h>
 #include "fuggveny.h"
-
+#include "data.h"
 
 int main()
 {
 	char*keresd='\0';
 	int nf = 0; //not found
-	///majd �t kell rakni m�sik f�ggv�nybe
 	Recept* head = NULL;
-	Recept* tmp = create_list();
-	strcpy(tmp->name, "rantotta");
-	strcpy(tmp->ossze, "tojas,so");
-	strcpy(tmp->elkeszit, "keverd ossze a tojast majd sussd ki");
-	tmp->osszcucc = 2;
-	add_element(&head, tmp);
+	head=data(head);
+	/////majd �t kell rakni m�sik f�ggv�nybe
+	//Recept* head = NULL;
+	//Recept* tmp = create_list();
+	//strcpy(tmp->name, "rantotta");
+	//strcpy(tmp->ossze, "tojas,so");
+	//strcpy(tmp->elkeszit, "keverd ossze a tojast majd sussd ki");
+	//tmp->osszcucc = 2;
+	//add_element(&head, tmp);
 
-	tmp = create_list();
-	strcpy(tmp->name, "limonade");
-	strcpy(tmp->ossze, "viz,cukor");
-	strcpy(tmp->elkeszit, "keverd ossze a vizet es ihatod is");
-	tmp->osszcucc = 2;
-	add_element(&head, tmp);
-	////////
-	// 
+	//tmp = create_list();
+	//strcpy(tmp->name, "limonade");
+	//strcpy(tmp->ossze, "viz,cukor");
+	//strcpy(tmp->elkeszit, "keverd ossze a vizet es ihatod is");
+	//tmp->osszcucc = 2;
+	//add_element(&head, tmp);
+	//////////
+	//// 
 	//bek�ri a receptet
 	printf("ami van otthon:\n");
 	//teszt beolvas dinam

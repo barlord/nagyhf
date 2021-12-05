@@ -1,0 +1,2 @@
+
+Recept* data(Recept* head);
