@@ -3,51 +3,87 @@
 #include <string.h>
 #include<stdlib.h>
 #include "fuggveny.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 //a receptek adatbazisa
+
+
+
 Recept* data(Recept* head)
 {
-	Recept* tmp = create_listelement();
-	tmp->name= (char*)malloc(sizeof(char) * (strlen("rántotta") + 1));
-	strcpy(tmp->name, "rántotta");
-	tmp->ossze =(char*)malloc(sizeof(char)*(strlen("tojás,só")+1));
-	strcpy(tmp->ossze, "tojás,só");
-	tmp->elkeszit = (char*)malloc(sizeof(char) * (strlen("keverd össze a tojást majd süssd ki") + 1));
-	strcpy(tmp->elkeszit, "keverd össze a tojást majd süssd ki");
-	//nagyon fontos hogy hány elem van benne, ha a user is rakhatna be ide adatot ,-k száma+1
-	tmp->osszcucc = 2;
-	add_element(&head, tmp);
-
-	tmp = create_listelement();
-	tmp->name = (char*)malloc(sizeof(char) * (strlen("limonádé") + 1));
-	strcpy(tmp->name, "limonádé");
-	tmp->ossze = (char*)malloc(sizeof(char)*(strlen("víz,cukor,citrom")+1));
-	strcpy(tmp->ossze, "víz,cukor,citrom");
-	tmp->elkeszit = (char*)malloc(sizeof(char) * (strlen("keverd össze a vízet es ihatod is") + 1));
-	strcpy(tmp->elkeszit, "keverd össze a vízet es ihatod is");
-	tmp->osszcucc = 3;
-	add_element(&head, tmp);
-
-
-	tmp = create_listelement();
-	tmp->name = (char*)malloc(sizeof(char) * (strlen("lekvaros turó") + 1));
-	strcpy(tmp->name, "lekváros turó");
-	tmp->ossze = (char*)malloc(sizeof(char) * (strlen("lekvár,turó") + 1));
-	strcpy(tmp->ossze, "lekvár,turó");
-	tmp->elkeszit = (char*)malloc(sizeof(char) * (strlen("keverd ossze a turot es a lekvárt und eheted is") + 1));
-	strcpy(tmp->elkeszit, "keverd ossze a turot es a lekvárt und eheted is");
-	tmp->osszcucc = 2;
-	add_element(&head, tmp);
-
-	tmp = create_listelement();
-	tmp->name = (char*)malloc(sizeof(char) * (strlen("amerikai csokis keksz") + 1));
-	strcpy(tmp->name, "amerikai csokis keksz");
-	tmp->ossze = (char*)malloc(sizeof(char) * (strlen("tojás,só,cukor,vaj,liszt,sütőpor,csoki") + 1));
-	strcpy(tmp->ossze, "tojás,só,cukor,vaj,liszt,sütőpor,csoki");
-	tmp->elkeszit = (char*)malloc(sizeof(char) * (strlen("A tojást elkeverjük a cukorral és a csipet sóval, aztán jöhet a vaj. \n Jól össze kell keverni. A darabokra tört csokit is hozzátesszük, és összekeverjük. \n A lisztbe belekeverjük a sütőport, majd hozzáadagoljuk a maszához. \n Golyókat gyúrunk és a sütőpapíros tepsin kicsit lenyomkodjuk. Kb. 160 fokon kell sütni, minimum 15 percig. Sütés után hagyni kell kihűlni. ") + 1));
-	strcpy(tmp->elkeszit, "A tojást elkeverjük a cukorral és a csipet sóval, aztán jöhet a vaj. \n Jól össze kell keverni. A darabokra tört csokit is hozzátesszük, és összekeverjük. \n A lisztbe belekeverjük a sütőport, majd hozzáadagoljuk a maszához. \n Golyókat gyúrunk és a sütőpapíros tepsin kicsit lenyomkodjuk. Kb. 160 fokon kell sütni, minimum 15 percig. Sütés után hagyni kell kihűlni. ");
-	tmp->osszcucc = 7;
-	add_element(&head, tmp);
 	
+		SetConsoleCP(1250);
+		SetConsoleOutputCP(1250);
+		FILE* file;
+		Recept* tmp = create_listelement();
+		Recept dp;
+		int c=0;
+		char* string = (char*)malloc(sizeof(char) * 1);
+		int i = 0, j;
+		file = fopen("data.txt", "r");
+		if (file == NULL)
+		{
+			fprintf(stderr, "\nFILEFATALerror'\n");
+			exit(1);
+		}
+		while (c !=EOF)
+		{
+			for (j = 0; j < 4; j++)
+			{
+				i = 0;
+				while (((c = fgetc(file)) != ';')&&(c!=EOF))
+				{
+					if (j == 3)
+					{
+						if (c == '\n')
+							continue;
+					}
+					string = realloc(string, (i + 2) * sizeof(char));
+					if (string == NULL)
+					{
+						fprintf(stderr, "\nmallocFATALerror'\n");
+						exit(1);
+					}
+					string[i] = (char)c;
+					string[i + 1] = '\0';
+					i++;
+				}
+
+				if (j == 0)
+				{
+					dp.name = malloc(sizeof(char) * (strlen(string) + 1));
+					strcpy(dp.name, string);
+				}
+				if (j == 1)
+				{
+					dp.ossze = malloc(sizeof(char) * (strlen(string) + 1));
+					strcpy(dp.ossze, string);
+				}
+				if (j == 2)
+				{
+					dp.elkeszit = malloc(sizeof(char) * (strlen(string) + 1));
+					strcpy(dp.elkeszit, string);
+				}
+				if (j == 3)
+				{
+					dp.osszcucc = atoi(string);
+				}
+				fgetc(file);
+			}
+			tmp = create_listelement();
+			tmp->name = (char*)malloc(sizeof(char) * (strlen(dp.name) + 1));
+			strcpy(tmp->name, dp.name);
+			tmp->ossze = (char*)malloc(sizeof(char) * (strlen(dp.ossze) + 1));
+			strcpy(tmp->ossze, dp.ossze);
+			tmp->elkeszit = (char*)malloc(sizeof(char) * (strlen(dp.elkeszit) + 1));
+			strcpy(tmp->elkeszit, dp.elkeszit);
+			tmp->osszcucc = dp.osszcucc;
+			add_element(&head, tmp);
+
+		}
+		fclose(file);
 	return head;
 }
 //"tojás,só,cukor,vaj, liszt, sütőpor, csoki"

@@ -14,7 +14,6 @@ int main()
 	//magyar betük csak windowson
 	SetConsoleCP(1250);
 	SetConsoleOutputCP(1250);
-
 	char*keresd='\0';
 	int nf = 0; //not found
 	int t = 0;//találatok száma
